@@ -1,0 +1,96 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(CASHIER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sales     Sale[]
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  CASHIER
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  barcode     String      @unique
+  name        String
+  description String?
+  price       Float
+  cost        Float?
+  stock       Int         @default(0)
+  unit        String      @default("pcs")
+  category    String?
+  supplierId  String?
+  supplier    Supplier?   @relation(fields: [supplierId], references: [id])
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  saleItems   SaleItem[]
+  
+  @@index([barcode])
+  @@index([name])
+}
+
+model Supplier {
+  id            String    @id @default(cuid())
+  name          String
+  contactPerson String?
+  phone         String?
+  email         String?
+  address       String?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  products      Product[]
+}
+
+model Sale {
+  id            String       @id @default(cuid())
+  saleNumber    String       @unique
+  subtotal      Float
+  tax           Float
+  total         Float
+  paymentMethod String
+  paymentAmount Float?
+  changeAmount  Float?
+  cashierId     String
+  cashier       User         @relation(fields: [cashierId], references: [id])
+  items         SaleItem[]
+  createdAt     DateTime     @default(now())
+  
+  @@index([createdAt])
+  @@index([cashierId])
+}
+
+model SaleItem {
+  id          String   @id @default(cuid())
+  saleId      String
+  sale        Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  productName String
+  quantity    Int
+  unitPrice   Float
+  total       Float
+  createdAt   DateTime @default(now())
+  
+  @@index([saleId])
+  @@index([productId])
+}
