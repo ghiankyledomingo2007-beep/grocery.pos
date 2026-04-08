@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { prisma } from "./prisma"
 import bcrypt from "bcryptjs"
+import NextAuth from "next-auth"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -66,3 +67,5 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET
 }
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)
