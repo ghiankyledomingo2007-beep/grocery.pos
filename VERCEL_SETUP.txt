@@ -1,0 +1,79 @@
+✅ Git repository created and committed!
+
+NOW DO THESE STEPS:
+
+1. CREATE GITHUB REPO
+   - Go to: https://github.com/new
+   - Name: pos-system
+   - Make it Private
+   - DON'T initialize with README
+   - Click "Create repository"
+
+2. PUSH CODE TO GITHUB
+   Copy and run these commands in PowerShell:
+
+   cd "C:\Users\KYLLE\OneDrive\Websites Projects\New folder\pos-system"
+   git remote add origin https://github.com/YOUR_USERNAME/pos-system.git
+   git branch -M main
+   git push -u origin main
+
+   (Replace YOUR_USERNAME with your GitHub username)
+
+3. DEPLOY TO VERCEL
+   - Go to: https://vercel.com/signup
+   - Click "Continue with GitHub"
+   - Click "Add New Project"
+   - Find "pos-system" and click "Import"
+   - Click "Deploy" (don't change anything)
+
+4. ADD DATABASE (in Vercel)
+   - After deploy, go to your project
+   - Click "Storage" tab
+   - Click "Create Database"
+   - Select "Postgres"
+   - Click "Create"
+   - Vercel automatically adds DATABASE_URL ✅
+
+5. ADD ENVIRONMENT VARIABLES (in Vercel)
+   - Go to Settings → Environment Variables
+   - Add these:
+
+   NEXTAUTH_SECRET
+   qMn/Lom71HKhiNT10UC3G65qKMeT2b0fk261TRN4Lrg=
+
+   NEXTAUTH_URL
+   https://YOUR-PROJECT-NAME.vercel.app
+   (Get this from your Vercel dashboard URL)
+
+6. REDEPLOY
+   - Go to "Deployments" tab
+   - Click "..." on latest deployment
+   - Click "Redeploy"
+   - Wait for it to finish
+
+7. SETUP DATABASE
+   Run in PowerShell:
+
+   npm install -g vercel
+   vercel login
+   vercel link
+   vercel env pull
+   npm run db:seed:prod
+
+8. DONE! SHARE WITH TITA
+   URL: https://YOUR-PROJECT-NAME.vercel.app
+   Email: admin@store.com
+   Password: admin123
+
+   Tell her to bookmark it!
+
+---
+
+STUCK? Try Railway instead:
+1. Go to: https://railway.app
+2. Sign up with GitHub
+3. "New Project" → "Deploy from GitHub"
+4. Select pos-system
+5. Add PostgreSQL database
+6. Add same environment variables
+7. Done!
