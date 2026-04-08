@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
           { isActive: true },
           {
             OR: [
-              { name: { contains: query, mode: 'insensitive' } },
+              { name: { contains: query } },
               { barcode: { contains: query } }
             ]
           }
