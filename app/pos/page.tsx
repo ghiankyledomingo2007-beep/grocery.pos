@@ -27,12 +27,32 @@ export default function POSPage() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [loading, setLoading] = useState(false)
 
+  const searchProducts = async () => {
+    try {
+      const res = await fetch(`/api/products/search?q=${search}`)
+      const data = await res.json()
+      setProducts(data)
+    } catch {
+      console.error('Search error')
+    }
+  }
+
   // Redirect to login if not authenticated
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login')
     }
   }, [status, router])
+
+  // Search products when search changes
+  useEffect(() => {
+    if (search.length > 0) {
+      searchProducts()
+    } else {
+      setProducts([])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search])
 
   // Show loading while checking auth
   if (status === 'loading') {
@@ -49,24 +69,6 @@ export default function POSPage() {
   // Don't render if not authenticated
   if (!session) {
     return null
-  }
-
-  useEffect(() => {
-    if (search.length > 0) {
-      searchProducts()
-    } else {
-      setProducts([])
-    }
-  }, [search])
-
-  const searchProducts = async () => {
-    try {
-      const res = await fetch(`/api/products/search?q=${search}`)
-      const data = await res.json()
-      setProducts(data)
-    } catch (error) {
-      console.error('Search error:', error)
-    }
   }
 
   const addToCart = (product: Product) => {
@@ -148,7 +150,7 @@ export default function POSPage() {
       } else {
         toast.error('Checkout failed')
       }
-    } catch (error) {
+    } catch {
       toast.error('An error occurred')
     } finally {
       setLoading(false)

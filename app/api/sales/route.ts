@@ -10,10 +10,14 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { items, paymentMethod, paymentAmount } = body
+    const { items, paymentMethod, paymentAmount } = body as {
+      items: Array<{ productId: string; quantity: number; unitPrice: number }>
+      paymentMethod: string
+      paymentAmount?: number
+    }
 
     // Calculate totals
-    const subtotal = items.reduce((sum: number, item: any) => 
+    const subtotal = items.reduce((sum, item) => 
       sum + (item.unitPrice * item.quantity), 0
     )
     const tax = subtotal * 0.10
@@ -37,7 +41,7 @@ export async function POST(request: NextRequest) {
           changeAmount,
           cashierId: session.user.id,
           items: {
-            create: items.map((item: any) => ({
+            create: items.map((item) => ({
               productId: item.productId,
               productName: '', // Will be filled by trigger or separate query
               quantity: item.quantity,
