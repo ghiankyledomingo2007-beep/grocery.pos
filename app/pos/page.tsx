@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { Search, ShoppingCart, Trash2, CreditCard, LogOut } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -162,20 +161,16 @@ export default function POSPage() {
       <Toaster position="top-right" />
       
       {/* Header */}
-      <div className="bg-white shadow-md">
+      <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <ShoppingCart className="w-8 h-8 text-blue-600" />
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">POS System</h1>
-              <p className="text-sm text-gray-600">Cashier: {session?.user?.name}</p>
-            </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Point of Sale</h1>
+            <p className="text-sm text-gray-600">Cashier: {session?.user?.name}</p>
           </div>
           <button
             onClick={() => signOut()}
-            className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
           >
-            <LogOut className="w-4 h-4" />
             Logout
           </button>
         </div>
@@ -184,15 +179,17 @@ export default function POSPage() {
       <div className="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Left: Product Search */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="relative">
-              <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <svg className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search products by name or barcode..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
@@ -220,8 +217,8 @@ export default function POSPage() {
 
         {/* Right: Cart */}
         <div className="space-y-4">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Shopping Cart</h2>
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Cart</h2>
             
             {cart.length === 0 ? (
               <p className="text-gray-500 text-center py-8">Cart is empty</p>
@@ -242,9 +239,9 @@ export default function POSPage() {
                     />
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded"
+                      className="p-2 text-red-600 hover:bg-red-50 rounded"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      ×
                     </button>
                   </div>
                 ))}
@@ -253,7 +250,7 @@ export default function POSPage() {
           </div>
 
           {/* Totals */}
-          <div className="bg-white rounded-lg shadow-md p-6 space-y-3">
+          <div className="bg-white rounded-lg shadow-sm border p-6 space-y-3">
             <div className="flex justify-between text-gray-700">
               <span>Subtotal:</span>
               <span>₱{getSubtotal().toFixed(2)}</span>
@@ -270,10 +267,9 @@ export default function POSPage() {
             <button
               onClick={handleCheckout}
               disabled={cart.length === 0 || loading}
-              className="w-full mt-4 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <CreditCard className="w-5 h-5" />
-              {loading ? 'Processing...' : 'Checkout'}
+              {loading ? 'Processing...' : 'Complete Sale'}
             </button>
           </div>
         </div>

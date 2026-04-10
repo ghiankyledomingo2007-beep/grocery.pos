@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { ShoppingCart } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -38,13 +37,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-full mb-4">
-            <ShoppingCart className="w-12 h-12 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-800">POS System</h1>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-sm border w-full max-w-md p-8">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">POS System</h1>
           <p className="text-gray-600 mt-2">Sign in to continue</p>
         </div>
 
@@ -88,7 +84,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
